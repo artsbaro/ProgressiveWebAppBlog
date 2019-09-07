@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center" id="blog-title">
+    <h1 class="display-4">Maki Blog</h1>
+    <p>study and post, a learning philosophy</p>
+</div>
+
+<div class="blog-list card-columns" id="blog-list"></div>
+
+<div class="center">
+    <button class="btn btn-primary" onclick="pageEvents.loadMoreBlogPosts();">ver mais</button>
+    <br /><br />
+</div>
+
+<div id="blog-item-container"></div>
+
+<script id="blog-card" type="text/template">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{PostId}} - {{Title}}</h5>
+            <p class="card-text">{{ShortDescription}}</p>
+            <button onclick="pageEvents.loadBlogPost('{{Link}}');" class="btn btn-primary">ir</button>
+        </div>
+    </div>
+</script>
+<script id="blog-item" type="text/template">
+    <div id="{{Link}}" class="blog-item">
+        {{Content}}
+    </div>
+    <a href="#blog-title" class="btn btn-primary">voltar</a>
+</script>

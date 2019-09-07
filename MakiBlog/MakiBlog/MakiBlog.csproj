@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Posts\2_post.md" />
+    <None Remove="Posts\3_post.md" />
+    <None Remove="Posts\4_post.md" />
+    <None Remove="Posts\5_post.md" />
+    <None Remove="Posts\6_post.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Posts\2_post.md" />
+    <Content Include="Posts\5_post.md" />
+    <Content Include="Posts\6_post.md" />
+    <Content Include="Posts\4_post.md" />
+    <Content Include="Posts\3_post.md" />
+    <Content Include="Posts\1_post.md" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
