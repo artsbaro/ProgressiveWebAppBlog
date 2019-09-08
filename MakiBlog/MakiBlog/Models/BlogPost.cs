@@ -9,6 +9,5 @@ namespace MakiBlog.Controllers
         public string ShortDescription { get; set; }
         public string Link { get { return ShortDescription.UrlFriendly(50); }  }
 
-        public string Content { get; set; }
     }
 }
