@@ -58,3 +58,14 @@ body {
 .blog-item{
     min-height: 600px;
 }
+
+.no-style{
+    padding:0;margin:0;border:none;background-color:white;
+}
+
+.absolute-toast-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1040;
+}
