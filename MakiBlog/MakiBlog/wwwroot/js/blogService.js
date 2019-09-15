@@ -59,9 +59,13 @@
 
                 clientStorage.getPostText(link)
                     .then(function (data) {
-                        var converter = new showdown.Converter();
-                        html = converter.makeHtml(data);
-                        template.showBlogItem(html, link);
+                        if (!data) {
+                            template.showBlogItem($('#blog-content-not-found').html(), link);
+                        } else {
+                            var converter = new showdown.Converter();
+                            html = converter.makeHtml(data);
+                            template.showBlogItem(html, link);
+                        }
                         window.location = '#' + link;
                     })
             });

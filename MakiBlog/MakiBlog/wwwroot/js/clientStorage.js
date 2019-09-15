@@ -47,7 +47,7 @@
 
             blogInstance.keys().then(function (keys) {
 
-                keys = keys.filter(function (a) { return !a.includes('#') });
+                keys = keys.filter(function (a) { return a && !a.includes('#') });
                 keys = keys.sort(function (a, b) { return a - b });
 
                 var index = keys.indexOf(oldestBlogPostId);
