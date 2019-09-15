@@ -7,34 +7,13 @@
     <link rel="manifest" href="/manifest.json">
     <title>@ViewData["Title"] - MakiBlog</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <div class="position-relative">
-        <div class="p-4 absolute-toast-right">
-            <div class="toast ml-auto" role="alert" data-delay="700" data-autohide="false">
-                <div class="toast-header">
-                    <strong class="mr-auto text-primary">Hello World!</strong>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
-                        <span>×</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                    <button onclick="pageEvents.tryAddHomeScreen();" class="btn-link no-style">Clique aqui</button>
-                    e adicione Maki Blog na sua home!
-                </div>
-            </div>
-        </div>
+    <div style="display:none; padding: 5px; text-align:center;" id="install-container">
+        <button onclick="pageEvents.tryAddHomeScreen();" class="btn-link no-style">Clique aqui</button>
+        e adicione Maki Blog na sua home!
     </div>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -70,24 +49,8 @@
         </div>
     </footer>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
-        </script>
-    </environment>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/es6-promise/es6-promise.js"></script>
     <script src="~/lib/fetch/fetch.js"></script>
     <script src="~/lib/systemjs/system.js"></script>

@@ -4,16 +4,29 @@
     var blogPostUrl = '/Home/Post/?link=';
     var blogMorePostsUrl = '/Home/MoreBlogPosts/?oldestBlogPostId=';
 
-    function fetchPromise(url) {
+    function fetchPromise(url, link, text) {
+
+        link = link || '';
+
         return new Promise(function (resolve, reject) {
-            fetch(url)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (data) {
-                    clientStorage.addPosts(data)
-                        .then(function () {
-                            resolve('The connection is OK, showing latest results');
+            fetch(url + link)
+                .then(function (data) {
+
+                    var resolveSuccess = function () {
+                        resolve('The connection is OK, showing latest results');
+                    };
+
+                    if (text) {
+                        data.text().then(function (text) {
+                            clientStorage.addPostText(link, text).then(resolveSuccess);
                         });
+                    }
+                    else {
+                        data.json().then(function (jsonData) {
+                            clientStorage.addPosts(jsonData).then(resolveSuccess);
+                        });
+                    }
+
                 }).catch(function (e) {
                     resolve('No connection, showing offline results');
                 });
@@ -39,14 +52,18 @@
     }
 
     function loadBlogPost(link) {
-        fetch(blogPostUrl + link)
-            .then(function (response) {
-                return response.text();
-            }).then(function (data) {
-                var converter = new showdown.Converter();
-                html = converter.makeHtml(data);
-                template.showBlogItem(html, link);
-                window.location = '#' + link;
+
+        fetchPromise(blogPostUrl, link, true)
+            .then(function (status) {
+                $('#connection-status').html(status);
+
+                clientStorage.getPostText(link)
+                    .then(function (data) {
+                        var converter = new showdown.Converter();
+                        html = converter.makeHtml(data);
+                        template.showBlogItem(html, link);
+                        window.location = '#' + link;
+                    })
             });
     }
 

@@ -37,7 +37,8 @@ namespace MakiBlog.Controllers
         public string GetPostText(string link)
         {
             var post = Posts.FirstOrDefault(_ => _.Link == link);
-            return File.ReadAllText($"{_env.ContentRootPath}/Posts/{post.PostId}_post.md");
+
+            return File.ReadAllText($"{_env.WebRootPath}/Posts/{post.PostId}_post.md");
         }
 
         public List<BlogPost> GetLatestPosts()

@@ -1,18 +1,38 @@
 ﻿define([], function () {
 
-    var oldestBlogPostId = null;
+    var oldestBlogPostId = "";
     var limit = 3;
     var blogInstance = localforage.createInstance({
         name: 'blog'
     });
 
+    function getPostText(link) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.getItem('#' + link)
+                .then(function (text) {
+                    resolve(text);
+                });
+        });
+    }
+    
+    function addPostText(link, text) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.setItem('#' + link, text).then(function () {
+                resolve();
+            });
+        });
+    }
+
     function addPosts(posts) {
         return new Promise(function (resolve, reject) {
 
             var keyValuePair = [];
+
             posts.map(function (item) {
-                keyValuePair.push({ key: item.postId, value: item });
+                keyValuePair.push({ key: String(item.postId), value: item });
             })
+
+            keyValuePair = keyValuePair.sort(function (a, b) { return b.key - a.key });
 
             blogInstance.setItems(keyValuePair)
                 .then(function () {
@@ -27,6 +47,9 @@
 
             blogInstance.keys().then(function (keys) {
 
+                keys = keys.filter(function (a) { return !a.includes('#') });
+                keys = keys.sort(function (a, b) { return a - b });
+
                 var index = keys.indexOf(oldestBlogPostId);
                 if (index == -1) { index = keys.length; }
                 if (index == 0) { resolve([]); return; }
@@ -38,7 +61,7 @@
 
                 blogInstance.getItems(keys).then(function (results) {
                     var posts = Object.keys(results).map(function (k) { return results[k] }).reverse();
-                    oldestBlogPostId = posts[posts.length - 1].postId;
+                    oldestBlogPostId = String(posts[posts.length - 1].postId);
                     resolve(posts);
                 });
             });
@@ -54,6 +77,8 @@
     return {
         addPosts: addPosts,
         getPosts: getPosts,
-        getOldestBlogPostId: getOldestBlogPostId
+        getOldestBlogPostId: getOldestBlogPostId,
+        addPostText: addPostText,
+        getPostText: getPostText
     }
 });
