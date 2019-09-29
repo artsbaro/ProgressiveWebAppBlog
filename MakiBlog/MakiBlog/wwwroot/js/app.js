@@ -15,6 +15,10 @@ window.addEventListener('appinstalled', (evt) => {
     console.log('app foi adicionada na home screen! Yuhuu!');
 });
 
+if ('BackgroundFetchManager' in self) {
+    console.log('this browser supports Background Fetch!');
+}
+
 window.pageEvents = {
     loadBlogPost: function (link) {
         blogService.loadBlogPost(link);
@@ -30,6 +34,40 @@ window.pageEvents = {
                 $('#install-container').hide();
             }
             defferedPrompt = null;
+        });
+    },
+    setBackgroundFetch: function (link) {
+        navigator.serviceWorker.ready.then(async (swReg) => {
+            const bgFetch = await swReg.backgroundFetch.fetch(link,
+                ['/Home/Post/?link=' + link], {
+                title: link,
+                icons: [{
+                    sizes: '192x192',
+                    src: 'images/icons/icon-192x192.png',
+                    type: 'image/png',
+                }],
+                downloadTotal: 3000000,
+            });
+
+            bgFetch.addEventListener('progress', () => {
+                if (!bgFetch.downloadTotal) return;
+
+                const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
+                console.log('Download progress: ' + percent + '%');
+                console.log('Download status: ' + bgFetch.result);
+
+                $('.download-start').hide();
+                $('#status-download').show();
+                $('#status-download > .progress > .progress-bar').css('width', percent + '%');
+
+                if (bgFetch.result === 'success') {
+
+                    $('#status-download > .text-success').show();
+                }
+
+            });
+
+
         });
     }
 };

@@ -1,4 +1,5 @@
 "use strict";
+importScripts('lib/localforage/localforage.min.js');
 
 var cacheName = 'v2Cache';
 var blogCacheFiles = [
@@ -90,4 +91,29 @@ self.addEventListener('fetch', event => {
             })
         );
     }
+});
+
+self.addEventListener('backgroundfetchsuccess', (event) => {
+    const bgFetch = event.registration;
+
+    event.waitUntil(async function () {
+
+        var blogInstance = localforage.createInstance({
+            name: 'blog'
+        });
+
+        const records = await bgFetch.matchAll();
+
+        const promises = records.map(async (record) => {
+            const response = await record.responseReady;
+
+            response.text().then(function (text) {
+                console.log("text retrieved - storing in indexedDB");
+                blogInstance.setItem('#' + bgFetch.id, text);
+            });
+        });
+
+        await Promise.all(promises);
+        event.updateUI({ title: 'Done!' });
+    }());
 });

@@ -31,7 +31,7 @@
                     resolve('No connection, showing offline results');
                 });
 
-            setTimeout(function () { resolve('The connection is hanging, showing offline results'); }, 5000);
+            setTimeout(function () { resolve('The connection is hanging, showing offline results'); }, 800);
         });
     }
 
@@ -60,7 +60,12 @@
                 clientStorage.getPostText(link)
                     .then(function (data) {
                         if (!data) {
-                            template.showBlogItem($('#blog-content-not-found').html(), link);
+
+                            var contentNotFound = $('#blog-content-not-found')
+                                .html().replace('{{Link}}', link)
+                                .replace('{{Link}}', link);
+
+                            template.showBlogItem(contentNotFound, link);
                         } else {
                             var converter = new showdown.Converter();
                             html = converter.makeHtml(data);
