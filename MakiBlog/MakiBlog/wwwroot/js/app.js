@@ -46,7 +46,7 @@ window.pageEvents = {
                     src: 'images/icons/icon-192x192.png',
                     type: 'image/png',
                 }],
-                downloadTotal: 3000000,
+                downloadTotal: 15000,
             });
 
             bgFetch.addEventListener('progress', () => {
