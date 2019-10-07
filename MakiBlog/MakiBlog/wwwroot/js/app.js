@@ -64,11 +64,11 @@ window.pageEvents = {
 
                     $('#status-download > .text-success').show();
                 }
-
             });
-
-
         });
+    },
+    requestPushPermission: function () {
+        serviceWorker.requestPushPermission();
     }
 };
 

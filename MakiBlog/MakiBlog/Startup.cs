@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MakiBlog.Controllers;
+using MakiBlog.Store;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,9 @@ namespace MakiBlog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddPushSubscriptionStore(Configuration)
+                .AddPushNotificationService(Configuration);
+
             services.AddSingleton<IBlogService, BlogService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -53,6 +57,13 @@ namespace MakiBlog
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            //cria banco de dados SQLite
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                PushSubscriptionContext context = serviceScope.ServiceProvider.GetService<PushSubscriptionContext>();
+                context.Database.EnsureCreated();
+            }
 
             app.UseMvc(routes =>
             {

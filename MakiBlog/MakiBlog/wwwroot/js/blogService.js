@@ -62,8 +62,8 @@
                         if (!data) {
 
                             var contentNotFound = $('#blog-content-not-found')
-                                .html().replace('{{Link}}', link)
-                                .replace('{{Link}}', link);
+                                .html().replace(/{{Link}}/g, link)
+                                ;
 
                             template.showBlogItem(contentNotFound, link);
                         } else {
