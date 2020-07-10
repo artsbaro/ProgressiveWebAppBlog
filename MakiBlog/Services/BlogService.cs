@@ -7,8 +7,8 @@ namespace MakiBlog.Controllers
 {
     public class BlogService : IBlogService
     {
-        private IHostingEnvironment _env;
-        public BlogService(IHostingEnvironment env)
+        private IWebHostEnvironment _env;
+        public BlogService(IWebHostEnvironment env)
         {
             _env = env;
         }
