@@ -1,4 +1,6 @@
 ﻿define([], function () {
+    self = this;
+    self.serviceWorkerRegistration = {};
 
     //ref https://www.tpeczek.com/2018/01/push-notifications-and-aspnet-core-part_18.html
     function urlB64ToUint8Array(base64String) {
@@ -38,6 +40,26 @@
             return fetch('/subscriptions?endpoint=' + encodeURIComponent(pushSubscription.endpoint), {
                 method: 'DELETE'
             });
+        },
+        checkPushEnabled: function () {
+            return self.serviceWorkerRegistration
+                .pushManager
+                .getSubscription()
+                .then(function (subscription) {
+
+                    if (Notification.permission === "granted" && subscription != null) {
+                        console.log('permission ja foi concedida para push notification');
+                        return Promise.resolve(true);
+                    }
+
+                    console.log('subscription not enabled - service worker permission could be revoked');
+                    
+                    $('#notification-subscribe-section').show();
+                    return Promise.resolve(false);
+                });
+        },
+        saveRegistration : function(registration){
+            self.serviceWorkerRegistration = registration;
         }
     };
 });

@@ -51,13 +51,8 @@ if ('serviceWorker' in navigator) {
 
         if ('PushManager' in window) {
             console.log('this browser supports push manager');
-
-            if (Notification.permission === "granted") {
-                console.log('permission ja foi concedida para push notification');
-                return;
-            }
-
-            $('#notification-subscribe-section').show();
+            notificationService.saveRegistration(_serviceWorkerRegistration);
+            notificationService.checkPushEnabled();
         }
 
     }, function (err) {

@@ -1,6 +1,6 @@
 ﻿using MakiBlog.Extensions;
 
-namespace MakiBlog.Controllers
+namespace MakiBlog.Models
 {
     public class BlogPost
     {

@@ -1,4 +1,5 @@
-﻿define(['./template.js', '../lib/showdown/showdown.js', './clientStorage.js'], function (template, showdown, clientStorage) {
+﻿define(['./template.js', '../lib/showdown/showdown.js', './clientStorage.js'], 
+function (template, showdown, clientStorage) {
 
     var blogLatestPostsUrl = '/Home/LatestBlogPosts/';
     var blogPostUrl = '/Home/Post/?link=';

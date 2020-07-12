@@ -21,8 +21,13 @@
     function showBlogItem(html, link) {
         var template = $('#blog-item').html();
         template = template.replace('{{Link}}', link);
+        template = template.replace('{{Link}}', link);        
         template = template.replace('{{Content}}', html);
         $('#blog-item-container').html(template);
+        document.querySelector('.blog-item-close')
+            .addEventListener('click', function(){
+                document.getElementById('blog-item-container').innerHTML = '';
+            }); 
     }
 
     return {

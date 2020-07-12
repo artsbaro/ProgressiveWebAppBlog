@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using MakiBlog.Models;
 
-namespace MakiBlog.Controllers
+namespace MakiBlog.Services
 {
     public interface IBlogService
     {

@@ -1,6 +1,6 @@
-﻿Obter posts via API
+﻿How to capture posts via APIs
 ============
-Como usar fetch para obter uma lista de posts do blog
+How to use fetch to get a list of blog posts
 ------------
 
 

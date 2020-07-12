@@ -23,6 +23,8 @@ var blogCacheFiles = [
     '/js/blogService.js',
     '/js/swRegister.js',
     '/js/template.js',
+    '/js/testPushService.js',
+    '/js/notificationService.js',    
     '/lib/showdown/showdown.js',
     '/js/clientStorage.js',
     '/images/icons/icon-72x72.png',
@@ -80,12 +82,15 @@ self.addEventListener('fetch', event => {
 
     console.log('url request: ' + event.request.url);
 
-    if (event.request.url.toLowerCase().includes("/home")) {
+    if (event.request.url.toLowerCase().includes("/home") 
+    || event.request.url.toLowerCase() === "/subscriptions"
+    || event.request.url.toLowerCase() === "/notifications") {
+        
         console.log('[ServiceWorker] online - get online ' + event.request.url);
         event.respondWith(fetch(event.request));
     } else {
         event.respondWith(
-            timeout(1000, fetch(event.request)).catch(function () {
+            timeout(500, fetch(event.request)).catch(function () {
                 console.log('[ServiceWorker] offline - get from cache: ' + event.request.url);
                 return caches.match(event.request);
             })
@@ -114,7 +119,7 @@ self.addEventListener('backgroundfetchsuccess', (event) => {
         });
 
         await Promise.all(promises);
-        event.updateUI({ title: 'Done!' });
+        event.updateUI({ title: 'Download Completed!' });
     }());
 });
 

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Lib.Net.Http.WebPush;
 using Microsoft.EntityFrameworkCore;
+using MakiBlog.Services;
 
 public static class ServiceCollectionExtensions
 {
@@ -14,7 +15,11 @@ public static class ServiceCollectionExtensions
             options.UseSqlite(configuration.GetConnectionString(SQLITE_CONNECTION_STRING_NAME))
         );
 
+        services.AddTransient<IPushService, PushService>();            
         services.AddTransient<IPushSubscriptionStore, SqlitePushSubscriptionStore>();
+        services.AddHttpContextAccessor();
+        services.AddSingleton<IPushSubscriptionStoreAccessorProvider, SqlitePushSubscriptionStoreAccessorProvider>();
+
         return services;
     }
 

@@ -1,5 +1,8 @@
 ﻿var blogService = require('./blogService.js');
+var testPushService = require('./testPushService.js');
 var serviceWorker = require('./swRegister.js');
+var localization = require('./localization.js');
+var gyroscope = require('./gyroscope.js');
 
 //window events
 let defferedPrompt;
@@ -38,16 +41,26 @@ window.pageEvents = {
     },
     setBackgroundFetch: function (link) {
         navigator.serviceWorker.ready.then(async (swReg) => {
-            const bgFetch = await swReg.backgroundFetch.fetch(link,
-                ['/Home/Post/?link=' + link], {
-                title: link,
-                icons: [{
-                    sizes: '192x192',
-                    src: 'images/icons/icon-192x192.png',
-                    type: 'image/png',
-                }],
-                downloadTotal: 15000,
+
+            //receive confirmation message 
+            navigator.serviceWorker.addEventListener('message', event => {
+                $('.download-response').html('msg : ' + event.data.msg + ' url: ' + event.data.url);
+                console.log(event.data.msg, event.data.url);
             });
+
+            var date = new Date();
+            var timestamp = date.getTime();            
+            const bgFetch = await swReg.backgroundFetch.fetch('t' + timestamp,
+                ['/images/new-image1.png', '/images/image1.png','/Home/Post/?link=' + link]
+                , {
+                    downloadTotal: 18 * 1024 * 1024,
+                    title: 'download images',
+                    icons: [{
+                        sizes: '72x72',
+                        src: 'images/icons/icon-72x72.png',
+                        type: 'image/png',
+                    }]
+                });
 
             bgFetch.addEventListener('progress', () => {
                 if (!bgFetch.downloadTotal) return;
@@ -69,7 +82,22 @@ window.pageEvents = {
     },
     requestPushPermission: function () {
         serviceWorker.requestPushPermission();
+    },
+    getGeolocation: function(){
+        localization.getGeolocation();
+    },
+    vibrate: function(){
+        function vibrate() {
+            if ("vibrate" in navigator) {
+                // vibration API supported
+                navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+                navigator.vibrate([1000]);
+            }
+        }        
     }
 };
 
 blogService.loadLatestBlogPosts();
+testPushService.bindSendNotification();
+gyroscope.init();
+gyroscope.animate();

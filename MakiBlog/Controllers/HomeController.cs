@@ -3,21 +3,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MakiBlog.Models;
 using Lib.Net.Http.WebPush;
-using MakiBlog.Store;
+using MakiBlog.Services;
 
 namespace MakiBlog.Controllers
 {
+
     public class HomeController : Controller
     {
         private IBlogService _blogService;
-        private readonly IPushSubscriptionStore _subscriptionStore;
-        private readonly PushServiceClient _pushClient;
 
-        public HomeController(IBlogService blogService, IPushSubscriptionStore subscriptionStore, PushServiceClient pushClient)
+        private readonly IPushService _pushService;
+
+        public HomeController(IBlogService blogService, IPushService pushService)
         {
             _blogService = blogService;
-            _subscriptionStore = subscriptionStore;
-            _pushClient = pushClient;
+            _pushService = pushService;
         }
 
         public IActionResult Index()
@@ -56,14 +56,14 @@ namespace MakiBlog.Controllers
         [HttpGet("publickey")]
         public ContentResult GetPublicKey()
         {
-            return Content(_pushClient.DefaultAuthentication.PublicKey, "text/plain");
+            return Content(_pushService.GetKey(), "text/plain");
         }
 
         //armazena subscricoes
         [HttpPost("subscriptions")]
         public async Task<IActionResult> StoreSubscription([FromBody]PushSubscription subscription)
         {
-            int res = await _subscriptionStore.StoreSubscriptionAsync(subscription);
+            int res = await _pushService.StoreSubscriptionAsync(subscription);
 
             if (res > 0)
                 return CreatedAtAction(nameof(StoreSubscription), subscription);
@@ -74,7 +74,7 @@ namespace MakiBlog.Controllers
         [HttpDelete("subscriptions")]
         public async Task<IActionResult> DiscardSubscription(string endpoint)
         {
-            await _subscriptionStore.DiscardSubscriptionAsync(endpoint);
+            await _pushService.DiscardSubscriptionAsync(endpoint);
 
             return NoContent();
         }
@@ -85,13 +85,10 @@ namespace MakiBlog.Controllers
             var message = new PushMessage(messageVM.Notification)
             {
                 Topic = messageVM.Topic,
-                Urgency = messageVM.Urgency
+                Urgency = messageVM.Urgency                
             };
 
-            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
-            {
-                _pushClient.RequestPushMessageDeliveryAsync(subscription, message);
-            });
+            _pushService.SendNotificationAsync(message);
 
             return NoContent();
         }

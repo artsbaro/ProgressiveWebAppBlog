@@ -1,6 +1,6 @@
-﻿Gravando posts do blog no cache
+﻿Using Cache to store Blog posts
 ============
-Como usar a Cache API para salvar posts de blog que podem ser acessados offline
+How to use the Cache API to store blog posts that can be available offline
 ------------
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec lacus mollis, tristique magna quis, scelerisque nisl. In finibus eros in odio feugiat, eu pretium enim ultrices. Aliquam pulvinar interdum mi at tristique. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent rhoncus ipsum sit amet odio interdum, id luctus erat viverra. Mauris condimentum odio eget mollis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ultrices sollicitudin justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce maximus ipsum facilisis, dapibus ex at, rhoncus diam. Donec ultrices interdum nisi, quis vestibulum augue gravida eu. Nunc risus ex, vestibulum sed pulvinar vel, egestas ut eros. Donec sollicitudin nec magna eget ultrices.
