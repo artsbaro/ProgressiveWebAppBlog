@@ -13,18 +13,18 @@ define(['/lib/three/three.js'],function (THREE){
         scene = new THREE.Scene();
     
         geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
-        material = new THREE.MeshNormalMaterial( { wireframe: true } );
+        material = new THREE.MeshNormalMaterial();
     
         mesh = new THREE.Mesh( geometry, material );
         scene.add( mesh );
     
         renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setSize( 100, 100 );
+        renderer.setSize( 200, 200 );
     
         document.querySelector('#canvas').appendChild( renderer.domElement );
     }
     
-    var elapsed, interval = 1000, past = Date.now();
+    var elapsed, interval = 500, past = Date.now();
     function animate() {
         var now = Date.now();
         elapsed = now - past;
@@ -53,8 +53,8 @@ define(['/lib/three/three.js'],function (THREE){
         var info = "[X, Y]";
     
         if (rotation.alpha && rotation.beta && rotation.gamma) {
-            rotationX = rotation.alpha.toFixed(1);
-            rotationY = rotation.beta.toFixed(1);
+            rotationX = rotation.alpha.toFixed(1) * 10;
+            rotationY = rotation.beta.toFixed(1) * 10;
         }
     
         info = info.replace("X", rotationX);
