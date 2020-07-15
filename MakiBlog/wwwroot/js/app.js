@@ -98,10 +98,6 @@ window.pageEvents = {
     }
 };
 
-var urlByHashTag = window.location.href.split('#');
-if(urlByHashTag.length > 0) 
-    window.pageEvents.loadBlogPost(urlByHashTag[1]);
-
 blogService.loadLatestBlogPosts();
 testPushService.bindSendNotification();
 gyroscope.init();
