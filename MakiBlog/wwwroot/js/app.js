@@ -24,6 +24,7 @@ if ('BackgroundFetchManager' in self) {
 
 window.pageEvents = {
     loadBlogPost: function (link) {
+        console.log('loadBlogPost');
         blogService.loadBlogPost(link);
     },
     loadMoreBlogPosts: function () {
@@ -50,11 +51,11 @@ window.pageEvents = {
 
             var date = new Date();
             var timestamp = date.getTime();            
-            const bgFetch = await swReg.backgroundFetch.fetch('t' + timestamp,
-                ['/images/new-image1.png', '/images/image1.png','/Home/Post/?link=' + link]
+            const bgFetch = await swReg.backgroundFetch.fetch(link,
+                ['/Home/Post/?link=' + link]
                 , {
-                    downloadTotal: 18 * 1024 * 1024,
-                    title: 'download images',
+                    downloadTotal: 2 * 1024 * 1024,
+                    title: 'download post',
                     icons: [{
                         sizes: '72x72',
                         src: 'images/icons/icon-72x72.png',
@@ -97,7 +98,12 @@ window.pageEvents = {
     }
 };
 
+var urlByHashTag = window.location.href.split('#');
+if(urlByHashTag.length > 0) 
+    window.pageEvents.loadBlogPost(urlByHashTag[1]);
+
 blogService.loadLatestBlogPosts();
 testPushService.bindSendNotification();
 gyroscope.init();
 gyroscope.animate();
+

@@ -98,6 +98,10 @@ self.addEventListener('fetch', event => {
     }
 });
 
+self.addEventListener('backgroundfetchclick', (event) => {
+    clients.openWindow('/');
+});
+
 self.addEventListener('backgroundfetchsuccess', (event) => {
     const bgFetch = event.registration;
 
