@@ -57,7 +57,16 @@ namespace MakiBlog
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions(){
+                OnPrepareResponse = (context) => {
+                    var header = context.Context.Response.GetTypedHeaders();
+
+                    header.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue(){
+                        Public = true,
+                        MaxAge = TimeSpan.FromDays(30)
+                    };
+                }
+            });
             app.UseCookiePolicy();
             app.UseRouting();            
 
